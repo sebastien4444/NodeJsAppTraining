@@ -1,7 +1,8 @@
 var express = require("express");
 var passport = require("passport");
 
-var User = require("../../models/user");
+//var User = require("../../models/user");
+var User = require("../../models/user2");
 
 var router = express.Router();
 
@@ -42,8 +43,18 @@ router.post("/signup", function (req, res, next) {
    var username = req.body.username;
    var email = req.body.email;
    var password = req.body.password;
+   var id = User.generateUniqueID();
 
-   User.findOne({ email: email }, function (err, user) {
+   //User.find({ email: email }, function(){
+      User.create({
+         _id: id,
+         username: username,
+         email: email,
+         password: password
+      }).save()
+   //})
+
+   /*User.findOne({ email: email }, function (err, user) {
       if (err) { return next(err); }
       if (user) {
          req.flash("error", "There's already an account with this email");
@@ -58,7 +69,7 @@ router.post("/signup", function (req, res, next) {
 
       newUser.save(next);
 
-   });
+   });*/
 
 }, passport.authenticate("login", {
    successRedirect: "/",

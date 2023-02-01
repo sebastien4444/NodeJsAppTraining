@@ -1,6 +1,6 @@
 var express = require("express");
 var path = require("path");
-var mongoose = require("mongoose");
+//var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var cookieParser = require("cookie-parser");
 var passport = require("passport");
@@ -12,7 +12,7 @@ var setUpPassport = require("./setuppassport");
 //var routes = require("./routes");
 
 var app = express();
-mongoose.connect(params.DATABASECONNECTION, {useUnifiedTopology:true, useNewUrlParser:true, useCreateIndex:true});
+//mongoose.connect(params.DATABASECONNECTION, {useUnifiedTopology:true, useNewUrlParser:true, useCreateIndex:true});
 setUpPassport();
 
 app.set("port", process.env.PORT || 3000);
