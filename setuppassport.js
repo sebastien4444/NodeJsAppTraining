@@ -5,7 +5,7 @@ var User = require("./models/user");
 
 module.exports = function () {
     //turns a user object into an id
-    passport.serializeUser(function (user, done) {
+/*    passport.serializeUser(function (user, done) {
         //serializing the user
         done(null, user._id);
     });
@@ -14,9 +14,32 @@ module.exports = function () {
         User.findById(id, function (err, user) {
             done(err, user);
         });
-    });
+    }); */
 
     passport.use("login", new LocalStrategy({
+        usernameField: 'email',
+        passwordField: 'password'
+    },  function (email, password, done) {
+            var test = User.find({ email: email });
+            var testLength = Object.keys(test).length
+            console.log("Contenu de test length : ", testLength)
+            console.log("Contenu de test : ", test)
+            if(testLength == 0) {
+                console.log("Test : ",test);
+                return done(null, false, { message: "No user has that Email!" });
+            }else{
+                console.log("Contenu de test password : ", User.password);
+                console.log("Contenu de password : ", password);
+                if(User.password === password){
+                    return done(null, test);
+                }else{
+                    return done(null, false, { message: "Invalid password" });
+                }
+            }
+    }
+    ));
+
+ /*   passport.use("login", new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password'
     }, function (email, password, done) {
@@ -34,7 +57,7 @@ module.exports = function () {
                 }
             });
         });
-    }));
+    }));*/
 
 
 

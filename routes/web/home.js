@@ -1,5 +1,10 @@
 var express = require("express");
 var passport = require("passport");
+const crypto = require("crypto");
+
+/*function generateUniqueID() {
+   return crypto.randomBytes(8).toString('hex');
+ }*/
 
 //var User = require("../../models/user");
 var User = require("../../models/user2");
@@ -43,15 +48,26 @@ router.post("/signup", function (req, res, next) {
    var username = req.body.username;
    var email = req.body.email;
    var password = req.body.password;
-   var id = User.generateUniqueID();
-
-   //User.find({ email: email }, function(){
-      User.create({
+   var id = crypto.randomInt(0,10000);
+   console.log("Username : ", username);
+   var test = User.find({ username: username });
+   var testLength = Object.keys(test).length
+   console.log("Contenu de test : ", testLength)
+   if(testLength > 0) {
+      console.log("Test : ",test);
+      res.render("home/signup");
+   }else{
+      var newUser = User.create({
          _id: id,
          username: username,
          email: email,
          password: password
-      }).save()
+      });
+      console.log(newUser);
+      newUser.save();
+      res.render("home/home")
+   };
+});
    //})
 
    /*User.findOne({ email: email }, function (err, user) {
@@ -71,10 +87,5 @@ router.post("/signup", function (req, res, next) {
 
    });*/
 
-}, passport.authenticate("login", {
-   successRedirect: "/",
-   failureRedirect: "/signup",
-   failureFlash: true
-}));
 
 module.exports = router;

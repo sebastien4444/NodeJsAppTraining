@@ -13,8 +13,8 @@ const UserBaseModel = {
 
 const userSchema = Schema(UserModelName,UserBaseModel);
 
-const generateUniqueID = function() {
-    return crypto.randomBytes(8).toString('hex')
-  }
+/*function generateUniqueID() {
+  return crypto.randomBytes(8).toString('hex');
+}*/
 
-module.exports = userSchema, generateUniqueID;
+module.exports = userSchema;
